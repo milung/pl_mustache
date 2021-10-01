@@ -1,0 +1,9 @@
+{
+  "generator-swipl": {
+    "packageName": "pl_mustache",
+    "packageTitle": "Mustache",
+    "author": "Milan Unger",
+    "email": "nilan.unger@siemens-healthineers.com",
+    "homepage": "https://github.com/milung/pl_mustache.git"
+  }
+}
