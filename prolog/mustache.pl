@@ -1,5 +1,5 @@
 :- module(mustache, [
-    mustache//2,                % +Variables:list, +In:codes
+    mustache//2,                % +Variables:list, +TemplateCodes:codes
     mustache_from_file/3        % +FileSpec, +Variables:list, -Out:codes
 ]).
 %! <module> Prolog implementation of mustach templating
@@ -17,16 +17,18 @@
 %    is retrieved by the call to the `read_term/2` therefore it must be ended by a dot.
 
 :- use_module(library(dcg/basics)).
+:- use_module(library(error)).
 
 %%% PUBLIC PREDICATES %%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%! mustache(+Variables:list, +In:codes)// is det
-%  converts mustache template into the rendered text
+%! mustache(+Variables:list, +TemplateCodes:codes)// is det
+%  converts mustache `TemplateCodes` into the rendered text
 %  by replacing `{{ variable }}` placeholders with the  variables
 %  specified in the `Variables` list. Variables are of the form 
 %  `Var - Value` or `Var = Value`. The value can be atomic, codes, string, or list of values
-mustache(Variables, In) -->
-    mustache_impl( Variables, [ [0'{, 0'{], [0'}, 0'}] ], In).
+mustache(Variables, TemplateCodes) -->
+    {   must_be(codes, TemplateCodes)   },
+    mustache_impl( Variables, [ [0'{, 0'{], [0'}, 0'}] ], TemplateCodes).
 
 %! mustache_from_file(+FileSpec, +Variables:list, -Out:codes) is det
 %  Same as `mustache//2 but loads the template from the `FileSpec`. 
